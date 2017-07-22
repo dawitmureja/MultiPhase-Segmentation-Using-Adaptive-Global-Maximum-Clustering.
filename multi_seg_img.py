@@ -15,23 +15,14 @@ def rescale(x,im,iM,om,oM):
     else:
         y = ((oM-om) * (x-im)/float(iM-im)) + om
     return y
-#x = np.arange(12).reshape(2,2,3)
-#print(x)
-#y = rescale(x,[],[],0,1)
-#print(y)
-#ipdb.set_trace()
-img = imread('spine.png', flatten = True)
-#ipdb.set_trace()
-#imshow(img)
-#print(img)
-#print(img[0])
+
+img = imread('sample.jpg', flatten = True)
 sgm = 20
 omg = 0.5
 index = 0
 
-def multiphaseSegmentation(img3D, sgm, omg):
-    hist = np.histogram(img3D, bins = 256)
-    #hist = np.histogram(img3D, bins = 256)
+def multiphaseSegmentation(img, sgm, omg):
+    hist = np.histogram(img, bins = 256)
     bin0 = hist[1][:-1]
     h0 = hist[0]
     img_scale = rescale(img, [],[],0,1)
@@ -42,7 +33,7 @@ def multiphaseSegmentation(img3D, sgm, omg):
     N = len(Intv_str)
     #plotHistogram(Intv_str, Intv_end, binr, h)
     plotHistogram(Intv_str, Intv_end, bin0, h0)
-    #ipdb.set_trace()
+    
     c = np.zeros(Intv_str.shape)
     for i in range(N):
         Intv = np.arange(Intv_str[i]-1, Intv_end[i])
