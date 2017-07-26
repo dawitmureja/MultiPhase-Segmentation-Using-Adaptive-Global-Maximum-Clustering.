@@ -17,14 +17,9 @@ def AGMC(h,sgm,omg):
         in_Max_iter = 10
         for in_iter in range(in_Max_iter+1):
             pre_h_ind = h_ind
-            #print("Entrance:"),
-            #print(h_ind)
-            #print(h)
             mu,mask = fast_kmeans(h,2,h_ind)
             ind1,ind2 = (np.where(mask == 1)[0],np.where(mask == 2)[0])
-            #print("ind1 and ind2")
-            #print(ind1)
-            #print(ind2)
+
             tmp_ind1, tmp_ind2 = (np.argmax(h[ind1]), np.argmax(h[ind2]))
             Max1, Max2 = (ind1[tmp_ind1], ind2[tmp_ind2])
             if (Max1 > Max2):
@@ -70,10 +65,7 @@ def AGMC(h,sgm,omg):
                 else:
                     h_ind = ind2 + 1
                 h[ind1] = 0
-            #plt.plot(ind1, h[ind1], color = 'r')
-            #plt.plot(ind2, h[ind2], color = 'g')
-            #plt.show()
-            #ipdb.set_trace()
+        
             if np.absolute(Max1 - Max2) < sgm:
                 #print("F this shit")
                 del_ind = []
@@ -81,10 +73,7 @@ def AGMC(h,sgm,omg):
                     i_ind = np.arange(1,257)
                 else:
                     i_ind = np.sort(live_ind)
-                #print("SDFSF:"),
-                #print(i_ind)
-                #print("Pre"),
-                #print(pre_h_ind)
+                    
                 for i in range(i_ind[0], i_ind[-1] + 1):
                     if (np.sum(i == pre_h_ind) == 0):
                         h[i-1] = h0[i-1]
@@ -102,7 +91,6 @@ def AGMC(h,sgm,omg):
         live_ind = np.array(h_ind).astype(int)
         #print(h_ind)
         if (len(live_ind) == 0) or (np.amax(h[live_ind-1]) < (omg * np.mean(h0))):
-            #print("Suck it)
             Intv_str = np.concatenate((Intv_str,[pre_h_ind[0]]), axis = 0)
             Intv_end = np.concatenate((Intv_end,[pre_h_ind[-1]]), axis = 0)
             break
@@ -111,17 +99,7 @@ def AGMC(h,sgm,omg):
         if len(live_ind) == 0:
             break
     return np.sort(Intv_str).astype(int), np.sort(Intv_end).astype(int),h0
-#img = imread('sample.jpg', flatten = True)
-#hist = np.histogram(img, bins = np.arange(1,258))
-#h= hist[0]
-#bin0 = hist[1][:-1]
-#print(bin0)
-#print(h)
-#print(len(h))
-#sgm = 10
-#omg = 0.5
-#a,b = AGMC(h,sgm,omg)
-#plotHistogram(a,b,bin0, h)
+
 
 
 
